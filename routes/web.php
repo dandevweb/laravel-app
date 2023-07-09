@@ -1,7 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StateController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,8 +46,18 @@ Route::middleware('splade')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        Route::middleware('auth')->group(function () {
-            Route::get('admin', [AdminController::class, 'index'])->name('admin.index');
+
+        Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+            Route::get('/', [AdminController::class, 'index'])->name('index');
+
+            Route::resource('users', UserController::class);
+
+            Route::resource('employees', EmployeeController::class);
+
+            Route::resource('countries', CountryController::class);
+            Route::resource('states', StateController::class);
+            Route::resource('cities', CityController::class);
+            Route::resource('departments', DepartmentController::class);
         });
     });
 
