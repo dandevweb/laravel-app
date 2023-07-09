@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Tables\States;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class StateController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('admin.state.index', [
+            'states' => States::class,
+        ]);
     }
 
     /**

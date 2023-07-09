@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Tables\Departments;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('admin.department.index', [
+            'departments' => Departments::class,
+        ]);
     }
 
     /**

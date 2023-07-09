@@ -10,7 +10,7 @@ class CountryController extends Controller
 {
     public function index(): View
     {
-        return view('admin.countries.index', [
+        return view('admin.country.index', [
             'countries' => Countries::class,
         ]);
     }
