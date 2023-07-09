@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Tables\Countries;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CountryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('admin.countries.index', [
+            'countries' => Countries::class,
+        ]);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Tables;
 
-use App\Models\User;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\SpladeTable;
@@ -10,9 +10,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 use ProtoneMedia\Splade\AbstractTable;
 use Spatie\QueryBuilder\AllowedFilter;
 
-class Users extends AbstractTable
+class Countries extends AbstractTable
 {
-
     public function __construct()
     {
         //
@@ -29,29 +28,25 @@ class Users extends AbstractTable
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
                     $query
-                        ->orWhere('username', 'LIKE', "%{$value}%")
-                        ->orWhere('first_name', 'LIKE', "%{$value}%")
-                        ->orWhere('last_name', 'LIKE', "%{$value}%")
-                        ->orWhere('email', 'LIKE', "%{$value}%");
+                        ->orWhere('country_code', 'LIKE', "%{$value}%")
+                        ->orWhere('name', 'LIKE', "%{$value}%");
                 });
             });
         });
 
-        return QueryBuilder::for(User::class)
-            ->defaultSort('username')
-            ->allowedSorts(['id', 'username', 'last_name', 'first_name', 'email'])
-            ->allowedFilters(['username', 'last_name', 'first_name',  'email', $globalSearch]);
+        return QueryBuilder::for(Country::class)
+            ->defaultSort('name')
+            ->allowedSorts(['id', 'country_code', 'name'])
+            ->allowedFilters(['country_code', 'name', $globalSearch]);
     }
 
     public function configure(SpladeTable $table): void
     {
         $table
-            ->withGlobalSearch(columns: ['id', 'username', 'last_name', 'first_name', 'email'])
+            ->withGlobalSearch(columns: ['id', 'country_code', 'name'])
             ->column('id', sortable: true)
-            ->column('username', sortable: true)
-            ->column('first_name', sortable: true)
-            ->column('last_name', sortable: true)
-            ->column('email', sortable: true)
+            ->column('country_code', sortable: true)
+            ->column('name', sortable: true)
             ->paginate(15);
     }
 }
