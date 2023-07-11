@@ -6,7 +6,7 @@ use App\Models\TodoList;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class TodoLitTest extends TestCase
+class TodoListTest extends TestCase
 {
     use RefreshDatabase;
 
