@@ -5,7 +5,7 @@
         <sidebar />
 
         <main class="flex-1">
-            <div class="max-w-6xl mx auto">
+            <div class="mx-auto max-w-7xl">
                 {{ $slot }}
             </div>
         </main>
