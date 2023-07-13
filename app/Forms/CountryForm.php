@@ -21,7 +21,7 @@ class CountryForm extends AbstractForm
         return [
             Input::make('country_code')->label('Country Code'),
             Input::make('name')->label('Country Name'),
-            Submit::make()->label(__('Create')),
+            Submit::make()->label(__('Submit')),
         ];
     }
 }

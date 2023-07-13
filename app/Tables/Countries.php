@@ -35,9 +35,9 @@ class Countries extends AbstractTable
         });
 
         return QueryBuilder::for(Country::class)
-            ->defaultSort('name')
+            ->defaultSort('id')
             ->allowedSorts(['id', 'country_code', 'name'])
-            ->allowedFilters(['country_code', 'name', $globalSearch]);
+            ->allowedFilters(['id', 'country_code', 'name', $globalSearch]);
     }
 
     public function configure(SpladeTable $table): void
@@ -47,6 +47,7 @@ class Countries extends AbstractTable
             ->column('id', sortable: true)
             ->column('country_code', sortable: true)
             ->column('name', sortable: true)
+            ->column('action')
             ->paginate(15);
     }
 }

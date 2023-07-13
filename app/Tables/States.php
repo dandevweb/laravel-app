@@ -2,6 +2,7 @@
 
 namespace App\Tables;
 
+use App\Models\Country;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -24,7 +25,6 @@ class States extends AbstractTable
 
     public function for(): QueryBuilder
     {
-        //TODO: need change column country name as country and sort by country
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
@@ -38,9 +38,9 @@ class States extends AbstractTable
         });
 
         return QueryBuilder::for(State::class)
-            ->defaultSort('name')
-            ->allowedSorts(['id', 'country.name', 'name'])
-            ->allowedFilters(['country.name', 'name', $globalSearch]);
+            ->defaultSort('id')
+            ->allowedSorts(['id',  'name', 'country.name'])
+            ->allowedFilters(['name', 'country_id', $globalSearch]);
     }
 
     public function configure(SpladeTable $table): void
@@ -48,8 +48,14 @@ class States extends AbstractTable
         $table
             ->withGlobalSearch(columns: ['id', 'country', 'name'])
             ->column('id', sortable: true)
-            ->column('country.name', sortable: false)
             ->column('name', sortable: true)
+            ->column('country.name', label: 'Country')
+            ->column('action')
+            ->selectFilter(
+                key: 'country_id',
+                options: Country::pluck('name', 'id')->toArray(),
+                label: 'Country',
+            )
             ->paginate(15);
     }
 }
