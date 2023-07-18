@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Forms\DepartmentForm;
+use App\Models\Department;
 use App\Tables\Departments;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class DepartmentController extends Controller
 {
@@ -15,51 +19,48 @@ class DepartmentController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.form', [
+            'form' => DepartmentForm::class,
+            'title' => 'Create a new department',
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        Department::create($request->validate(DepartmentForm::rules()));
+        Splade::toast('Department created')->autoDismiss(3);
+
+        return to_route('admin.departments.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Department $department): View
     {
-        //
+        $form = DepartmentForm::make()
+            ->method('PUT')
+            ->fill($department)
+            ->action(route('admin.departments.update', $department));
+
+        return view('admin.form', [
+            'form' => $form,
+            'title' => "Edit department: {$department->name}",
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Department $department): RedirectResponse
     {
-        //
+        $department->update($request->validate(DepartmentForm::rules()));
+        Splade::toast('Department updated')->autoDismiss(3);
+
+        return to_route('admin.departments.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Department $department): RedirectResponse
     {
-        //
-    }
+        $department->delete();
+        Splade::toast('Department deleted')->autoDismiss(3);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return to_route('admin.departments.index');
     }
 }

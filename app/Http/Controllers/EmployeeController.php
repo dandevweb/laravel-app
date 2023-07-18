@@ -2,63 +2,81 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
+use App\Tables\Employees;
+use Illuminate\View\View;
+use App\Forms\EmployeeForm;
+use App\Models\City;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('admin.employee.index', [
+            'employees' => Employees::class,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.form', [
+            'form' => EmployeeForm::class,
+            'title' => 'Create a new employee',
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->validate(EmployeeForm::rules());
+
+        $city = City::find($data['city_id']);
+        $data['state_id'] = $city->state_id;
+        $data['country_id'] = $city->state->country_id;
+
+        Employee::create($data);
+
+        Splade::toast('Employee created')->autoDismiss(3);
+
+        return to_route('admin.employees.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Employee $employee): View
     {
-        //
+        $form = EmployeeForm::make()
+            ->method('PUT')
+            ->fill($employee)
+            ->action(route('admin.employees.update', $employee));
+
+        return view('admin.form', [
+            'form' => $form,
+            'title' => "Edit employee: {$employee->first_name}",
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Employee $employee): RedirectResponse
     {
-        //
+        $data = $request->validate(EmployeeForm::rules());
+
+        $city = City::find($data['city_id']);
+        $data['state_id'] = $city->state_id;
+        $data['country_id'] = $city->state->country_id;
+
+        $employee->update($data);
+
+        Splade::toast('Employee updated')->autoDismiss(3);
+
+        return to_route('admin.employees.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Employee $employee): RedirectResponse
     {
-        //
-    }
+        $employee->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        Splade::toast('Employee deleted')->autoDismiss(3);
+
+        return to_route('admin.employees.index');
     }
 }

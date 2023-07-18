@@ -57,5 +57,7 @@ class Users extends AbstractTable
             // })
             ->column('action')
             ->paginate(15);
+
+        $table->export();
     }
 }

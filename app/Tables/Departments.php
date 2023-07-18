@@ -12,11 +12,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class Departments extends AbstractTable
 {
-    public function __construct()
-    {
-        //
-    }
-
     public function authorize(Request $request): bool
     {
         return true;
@@ -24,7 +19,6 @@ class Departments extends AbstractTable
 
     public function for(): QueryBuilder
     {
-        //TODO: need change column country name as country and sort by country
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
@@ -35,7 +29,7 @@ class Departments extends AbstractTable
         });
 
         return QueryBuilder::for(Department::class)
-            ->defaultSort('name')
+            ->defaultSort('id')
             ->allowedSorts(['id', 'name'])
             ->allowedFilters(['name', $globalSearch]);
     }
@@ -46,6 +40,7 @@ class Departments extends AbstractTable
             ->withGlobalSearch(columns: ['id', 'name'])
             ->column('id', sortable: true)
             ->column('name', sortable: true)
+            ->column('action')
             ->paginate(15);
     }
 }
