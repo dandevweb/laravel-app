@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Forms\CountryForm;
-use App\Models\Country;
-use App\Tables\Countries;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use ProtoneMedia\Splade\SpladeForm;
-use ProtoneMedia\Splade\Facades\Splade;
 use App\Http\Requests\StoreCountryRequest;
 use App\Http\Requests\UpdateCountryRequest;
+use App\Models\Country;
+use App\Tables\Countries;
 use Illuminate\Http\RedirectResponse;
-use ProtoneMedia\Splade\FormBuilder\Input;
-use ProtoneMedia\Splade\FormBuilder\Submit;
+use Illuminate\View\View;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class CountryController extends Controller
 {
@@ -28,7 +24,7 @@ class CountryController extends Controller
     {
         return view('admin.form', [
             'form' => CountryForm::class,
-            'title' => "Create a new country",
+            'title' => 'Create a new country',
         ]);
     }
 
@@ -60,7 +56,6 @@ class CountryController extends Controller
 
         return to_route('admin.countries.index');
     }
-
 
     public function destroy(Country $country)
     {

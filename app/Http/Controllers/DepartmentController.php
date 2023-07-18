@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Tables\Departments;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class DepartmentController extends Controller
 {

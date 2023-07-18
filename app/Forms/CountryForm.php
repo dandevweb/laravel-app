@@ -2,10 +2,10 @@
 
 namespace App\Forms;
 
-use ProtoneMedia\Splade\SpladeForm;
 use ProtoneMedia\Splade\AbstractForm;
 use ProtoneMedia\Splade\FormBuilder\Input;
 use ProtoneMedia\Splade\FormBuilder\Submit;
+use ProtoneMedia\Splade\SpladeForm;
 
 class CountryForm extends AbstractForm
 {

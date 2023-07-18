@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Forms\StateForm;
 use App\Models\State;
 use App\Tables\States;
-use App\Forms\StateForm;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use ProtoneMedia\Splade\Facades\Splade;
 
 class StateController extends Controller
@@ -23,7 +23,7 @@ class StateController extends Controller
     {
         return view('admin.form', [
             'form' => StateForm::class,
-            'title' => "Create a new state",
+            'title' => 'Create a new state',
         ]);
     }
 

@@ -3,12 +3,13 @@
 namespace App\Tables;
 
 use App\Models\City;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use ProtoneMedia\Splade\SpladeTable;
-use Spatie\QueryBuilder\QueryBuilder;
 use ProtoneMedia\Splade\AbstractTable;
+use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class Cities extends AbstractTable
 {
@@ -24,7 +25,6 @@ class Cities extends AbstractTable
 
     public function for(): QueryBuilder
     {
-        //TODO: need change column state name as state and sort by state
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
@@ -39,9 +39,9 @@ class Cities extends AbstractTable
         });
 
         return QueryBuilder::for(City::class)
-            ->defaultSort('name')
-            ->allowedSorts(['id', 'state.name', 'name'])
-            ->allowedFilters(['state.name as state', 'name', $globalSearch]);
+            ->defaultSort('id')
+            ->allowedSorts(['id', 'name', 'state.name'])
+            ->allowedFilters(['name', 'state_id', $globalSearch]);
     }
 
     public function configure(SpladeTable $table): void
@@ -49,8 +49,14 @@ class Cities extends AbstractTable
         $table
             ->withGlobalSearch(columns: ['id', 'state', 'name'])
             ->column('id', sortable: true)
-            ->column('state.name', sortable: false)
             ->column('name', sortable: true)
+            ->column('state.name', label: 'State')
+            ->column('action')
+            ->selectFilter(
+                key: 'state_id',
+                options: State::pluck('name', 'id')->toArray(),
+                label: 'State',
+            )
             ->paginate(15);
     }
 }

@@ -5,10 +5,10 @@ namespace App\Tables;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use ProtoneMedia\Splade\SpladeTable;
-use Spatie\QueryBuilder\QueryBuilder;
 use ProtoneMedia\Splade\AbstractTable;
+use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class Countries extends AbstractTable
 {

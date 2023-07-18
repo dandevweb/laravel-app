@@ -6,7 +6,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Tables\Users;
-use Illuminate\Http\Request;
 use ProtoneMedia\Splade\Facades\Splade;
 
 class UserController extends Controller
@@ -22,7 +21,6 @@ class UserController extends Controller
     {
         return view('admin.user.create');
     }
-
 
     public function store(StoreUserRequest $request)
     {

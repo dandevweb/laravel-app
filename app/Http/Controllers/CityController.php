@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Forms\CityForm;
+use App\Models\City;
 use App\Tables\Cities;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class CityController extends Controller
 {
@@ -15,51 +19,48 @@ class CityController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.form', [
+            'form' => CityForm::class,
+            'title' => 'Create a new city',
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        City::create($request->validate(CityForm::rules()));
+        Splade::toast('States created')->autoDismiss(3);
+
+        return to_route('admin.cities.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(City $city): View
     {
-        //
+        $form = CityForm::make()
+            ->method('PUT')
+            ->fill($city)
+            ->action(route('admin.cities.update', $city));
+
+        return view('admin.form', [
+            'form' => $form,
+            'title' => "Edit city: {$city->name}",
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, City $city): RedirectResponse
     {
-        //
+        $city->update($request->validate(CityForm::rules()));
+        Splade::toast('States updated')->autoDismiss(3);
+
+        return to_route('admin.cities.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(City $city): RedirectResponse
     {
-        //
-    }
+        $city->delete();
+        Splade::toast('States deleted')->autoDismiss(3);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return to_route('admin.cities.index');
     }
 }
