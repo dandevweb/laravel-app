@@ -2,7 +2,6 @@
 
 namespace App\Tables;
 
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\SpladeTable;
