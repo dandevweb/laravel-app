@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
-use App\Tables\Employees;
-use Illuminate\View\View;
 use App\Forms\EmployeeForm;
 use App\Models\City;
+use App\Models\Employee;
+use App\Tables\Employees;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use ProtoneMedia\Splade\Facades\Splade;
 
 class EmployeeController extends Controller
@@ -24,7 +24,7 @@ class EmployeeController extends Controller
     {
         return view('admin.form', [
             'form' => EmployeeForm::class,
-            'title' => 'Create a new employee',
+            'title' => 'Create Employee',
         ]);
     }
 
@@ -32,7 +32,8 @@ class EmployeeController extends Controller
     {
         $data = $request->validate(EmployeeForm::rules());
 
-        $city = City::find($data['city_id']);
+        $city = City::findOrFail($data['city_id']);
+
         $data['state_id'] = $city->state_id;
         $data['country_id'] = $city->state->country_id;
 

@@ -36,7 +36,9 @@ class Users extends AbstractTable
             });
         });
 
-        return QueryBuilder::for(User::class)
+        return QueryBuilder::for(User::whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'admin');
+        }))
             ->defaultSort('id')
             ->allowedSorts(['id', 'username', 'last_name', 'first_name', 'email', 'created_at'])
             ->allowedFilters(['username', 'last_name', 'first_name',  'email', $globalSearch]);

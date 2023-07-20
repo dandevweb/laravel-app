@@ -135,7 +135,7 @@ class Employees extends AbstractTable
                 label: 'City',
 
             )
-            ->paginate(15);
+            ->paginate(10);
 
         $table->export();
     }

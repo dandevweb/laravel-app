@@ -30,7 +30,7 @@ class CityController extends Controller
     public function store(Request $request): RedirectResponse
     {
         City::create($request->validate(CityForm::rules()));
-        Splade::toast('States created')->autoDismiss(3);
+        Splade::toast('City created')->autoDismiss(3);
 
         return to_route('admin.cities.index');
     }

@@ -24,3 +24,5 @@
         @endcell
     </x-splade-table>
 </x-admin-layout>
+
+{{-- <x-admin.table pluralResource="departments" singularResource="department" for="{{ $departments }}" /> --}}

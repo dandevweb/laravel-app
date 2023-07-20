@@ -57,6 +57,6 @@ class Cities extends AbstractTable
                 options: State::pluck('name', 'id')->toArray(),
                 label: 'State',
             )
-            ->paginate(15);
+            ->paginate(10);
     }
 }

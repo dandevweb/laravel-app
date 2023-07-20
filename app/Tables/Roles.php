@@ -2,15 +2,16 @@
 
 namespace App\Tables;
 
-use App\Models\Department;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use ProtoneMedia\Splade\AbstractTable;
+use Spatie\Permission\Models\Role as ModelsRole;
+use Spatie\QueryBuilder\AllowedFilter;
 
-class Departments extends AbstractTable
+class Roles extends AbstractTable
 {
     public function authorize(Request $request): bool
     {
@@ -28,7 +29,7 @@ class Departments extends AbstractTable
             });
         });
 
-        return QueryBuilder::for(Department::class)
+        return QueryBuilder::for(ModelsRole::where('name', '!=', 'admin'))
             ->defaultSort('id')
             ->allowedSorts(['id', 'name'])
             ->allowedFilters(['name', $globalSearch]);
@@ -41,6 +42,6 @@ class Departments extends AbstractTable
             ->column('id', sortable: true)
             ->column('name', sortable: true)
             ->column('action')
-            ->paginate(15);
+            ->paginate(10);
     }
 }

@@ -3,9 +3,7 @@
 namespace App\Forms;
 
 use App\Models\City;
-use App\Models\Country;
 use App\Models\Department;
-use App\Models\State;
 use ProtoneMedia\Splade\AbstractForm;
 use ProtoneMedia\Splade\FormBuilder\Date;
 use ProtoneMedia\Splade\FormBuilder\Input;
@@ -49,10 +47,12 @@ class EmployeeForm extends AbstractForm
                 ->options(Department::pluck('name', 'id')->toArray())
                 ->rules(['required', 'integer']),
 
-            Date::make('birth_date')->label('Birth Date')
+            Date::make('birth_date')
+                ->label('Birth Date')
                 ->rules(['required', 'date']),
 
-            Date::make('date_hired')->label('Date Hired')
+            Date::make('date_hired')
+                ->label('Date Hired')
                 ->rules(['required', 'date']),
 
             Submit::make()->label(__('Submit')),
